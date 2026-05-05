@@ -1,0 +1,4 @@
+import Vision
+
+protocol FaceDetector {
+}

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		48C354412FA9C19E00C60098 /* Kime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Kime.app; path = "/Users/miiiwa/Desktop/dev/kime/Kime/build/Debug-iphoneos/Kime.app"; sourceTree = "<absolute>"; };
+		481559F22FA9E91D00AA0152 /* Kime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -19,6 +19,26 @@
 		48D6196D2FA9E37100E90D24 /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		48E1000A2FA9F00100000001 /* Features */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Features;
+			sourceTree = "<group>";
+		};
+		48E1000B2FA9F00100000002 /* Core */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Core;
+			sourceTree = "<group>";
+		};
+		48E1000C2FA9F00100000003 /* Data */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Data;
+			sourceTree = "<group>";
+		};
+		48E1000D2FA9F00100000004 /* Supporting */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -38,7 +58,12 @@
 			isa = PBXGroup;
 			children = (
 				48D619692FA9E36700E90D24 /* App */,
+				48E1000A2FA9F00100000001 /* Features */,
+				48E1000B2FA9F00100000002 /* Core */,
+				48E1000C2FA9F00100000003 /* Data */,
 				48D6196D2FA9E37100E90D24 /* Resources */,
+				48E1000D2FA9F00100000004 /* Supporting */,
+				481559F22FA9E91D00AA0152 /* Kime.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,12 +85,16 @@
 			fileSystemSynchronizedGroups = (
 				48D619692FA9E36700E90D24 /* App */,
 				48D6196D2FA9E37100E90D24 /* Resources */,
+				48E1000A2FA9F00100000001 /* Features */,
+				48E1000B2FA9F00100000002 /* Core */,
+				48E1000C2FA9F00100000003 /* Data */,
+				48E1000D2FA9F00100000004 /* Supporting */,
 			);
 			name = Kime;
 			packageProductDependencies = (
 			);
 			productName = Kime;
-			productReference = 48C354412FA9C19E00C60098 /* Kime.app */;
+			productReference = 481559F22FA9E91D00AA0152 /* Kime.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -83,7 +112,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 48C3543C2FA9C19E00C60098 /* Build configuration list for PBXProject "Kime" */;
+			buildConfigurationList = 48C3543C2FA9C19E00C60098 /* Build configuration list for PBXProject "kime" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -313,7 +342,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		48C3543C2FA9C19E00C60098 /* Build configuration list for PBXProject "Kime" */ = {
+		48C3543C2FA9C19E00C60098 /* Build configuration list for PBXProject "kime" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				48C3544A2FA9C19F00C60098 /* Debug */,
