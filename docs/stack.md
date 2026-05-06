@@ -20,8 +20,10 @@
 | 項目 | 選定 | 用途 |
 |---|---|---|
 | カメラ | AVFoundation | プレビュー表示、フレーム取得（CMSampleBuffer） |
-| 姿勢推定 | MediaPipe（Pose Landmarker） | 関節ランドマーク取得（肩・首・顔・全身） |
-| 顔検出・顔向き | Vision Framework | `VNDetectFaceRectanglesRequest`、`VNFaceObservation.roll/yaw/pitch` |
+| 姿勢推定 | MediaPipe（Pose Landmarker） | 関節ランドマーク、上半身の傾き、手の位置、距離（bbox） |
+| 顔検出・顔向き | Vision Framework | `VNDetectFaceRectanglesRequest`、`VNFaceObservation.roll/yaw/pitch`、目の開閉（landmarks） |
+| 触覚 | Core Haptics / UIImpactFeedbackGenerator | 撮影瞬間の振動 |
+| 写真保存 | PhotoKit (`PHPhotoLibrary`) | カメラロールへの保存、セッション単位のフォルダ化 |
 
 ### 処理設計
 
@@ -33,16 +35,22 @@
 
 | 項目 | MVP（P1） | 将来（P2 以降） |
 |---|---|---|
-| ポーズ定義 | ハードコード（1 ポーズ） | JSON ファイル（`Data/Poses/poses.json`） |
-| 永続化 | なし | SQLite or Realm（必要に応じて） |
-| ネットワーク | なし（オンデバイス完結） | 検討余地あり（ポーズ DL 等） |
+| 状態テンプレート | 手作り 5 個、JSON（`Data/Poses/templates.json`） | コーパスから拡充、将来は embedding |
+| 永続化 | JSON 読み込みのみ | SQLite or Realm（必要に応じて） |
+| ネットワーク | なし（オンデバイス完結） | 検討余地あり（テンプレ DL 等） |
+
+### 状態テンプレート拡張余地
+
+スキーマには `background_hint`（brightness / clutter）を予約フィールドとして含める。MVP では未使用だが、将来背景認識を入れる際の互換性を確保。詳細は [design.md](design.md) §2 参照。
 
 ## ロジック
 
-- ルールベースのレコメンドエンジン（タグ一致 + 状況スコアリング）
-- ポーズ一致度：関節差分の重み付き平均、0〜1 のスコア
+- **状態一致スコア**（PoseMatcher）：被写体の関節差分 + 顔角度差分 + 構図（フレーム内位置）の重み付き平均。0〜1
+- **シルエット補間**（Interpolator）：最近傍テンプレへ 0.1〜0.2 秒で補間。ヒステリシスで切り替え抑制
+- **セッション**（CaptureSession）：1 起動 = 5〜10 枚。同じテンプレを連続選択しない
+- ルールベースのレコメンドエンジン（タグ一致 + 状況スコアリング、P2 で導入）
 - ステートマシン：`SEARCH → GUIDE → CAPTURE`
-- スコアスムージング（揺らぎ抑制）
+- スコアの指数移動平均でスムージング
 
 ## ビルド・依存管理
 
@@ -57,6 +65,12 @@
 
 ## 非機能要件
 
-- フレームレート：最低 30fps
+- フレームレート：プレビュー 30fps 以上、姿勢推定 15fps
 - 発熱・バッテリー消費を抑える（推定間引き、効率的なカメラ設定）
-- アプリ起動からカメラ表示まで体感 1 秒以内を目標
+- アプリ起動からカメラ表示まで体感 1 秒以内、人物検出からシルエット出現まで 0.2 秒以内
+
+## 将来候補の周辺技術
+
+- **Apple Watch 連携**：被写体側への振動指示（公共空間で音声が使えない場合の代替）。WatchConnectivity。
+- **Core ML**：状態テンプレートの半自動生成、表情ピーク検出（P3 以降）
+- **背景認識**：Vision のセグメンテーション or 軽量モデル（P3 以降）
