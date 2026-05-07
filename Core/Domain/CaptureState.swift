@@ -1,7 +1,7 @@
 import Foundation
 
 enum CaptureState {
-    case search
-    case guide
-    case capture
+    case idle
+    case searching
+    case guiding
 }
